@@ -55,6 +55,82 @@ with st.form("daily_checkin"):
         horizontal=True
     )
 
+    # Additional period characteristics appear only when bleeding is reported.
+    blood_amount = "Not applicable"
+    product_changes = "Not recorded"
+    product_saturation = "Not recorded"
+    clots = "Not recorded"
+    blood_color = "Not recorded"
+    flow_leakage = "Not recorded"
+
+    if bleeding in ["Spotting", "Light", "Moderate", "Heavy"]:
+        st.markdown("**Period flow details**")
+        st.caption("These details are optional. Choose the options that fit your experience.")
+
+        blood_amount = st.selectbox(
+            "How would you describe the amount of blood?",
+            [
+                "Not sure",
+                "Very little",
+                "A little",
+                "Moderate amount",
+                "A lot"
+            ]
+        )
+        product_changes = st.selectbox(
+            "How often did you change your menstrual product? (optional)",
+            [
+                "Not applicable / did not use a product",
+                "Not recorded",
+                "Less often than every 4 hours",
+                "Every 3–4 hours",
+                "Every 1–2 hours",
+                "Every hour or more often"
+            ]
+        )
+        product_saturation = st.selectbox(
+            "How full was your menstrual product when you changed it? (optional)",
+            [
+                "Not applicable",
+                "Not recorded",
+                "Not full / lightly stained",
+                "Partly full",
+                "Mostly full",
+                "Completely saturated"
+            ]
+        )
+        clots = st.selectbox(
+            "Did you notice blood clots? (optional)",
+            [
+                "Not recorded",
+                "No",
+                "Yes, small clots",
+                "Yes, larger clots",
+                "Not sure"
+            ]
+        )
+        blood_color = st.selectbox(
+            "What color was the blood? (optional)",
+            [
+                "Not recorded",
+                "Bright red",
+                "Dark red",
+                "Brown",
+                "Pink",
+                "Mixed / changed during the day",
+                "Not sure"
+            ]
+        )
+        flow_leakage = st.selectbox(
+            "Did bleeding leak through your menstrual product or clothes? (optional)",
+            [
+                "Not recorded",
+                "No",
+                "Yes, once",
+                "Yes, more than once"
+            ]
+        )
+
     st.subheader("Physical symptoms")
     physical_symptoms = st.multiselect(
         "Which physical symptoms did you experience today?",
@@ -62,7 +138,7 @@ with st.form("daily_checkin"):
             "Cramps / pelvic pain",
             "Headache",
             "Bloating",
-"Breast tenderness",
+            "Breast tenderness",
             "Fatigue / low energy",
             "Acne / skin changes",
             "Nausea",
@@ -143,6 +219,12 @@ if submitted:
         "period_started": period_started,
         "bleeding": bleeding,
         "period_ended": period_ended,
+        "blood_amount": blood_amount,
+        "product_changes": product_changes,
+        "product_saturation": product_saturation,
+        "blood_clots": clots,
+        "blood_color": blood_color,
+        "flow_leakage": flow_leakage,
         "physical_symptoms": "; ".join(physical_symptoms),
         "pain_level_0_10": pain_level,
         "emotions": "; ".join(emotions),
@@ -180,4 +262,5 @@ else:
 
 st.divider()
 st.caption("CycleSync | University prototype | Educational use only")
+
 
